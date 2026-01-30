@@ -1,128 +1,223 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+  <!-- मेटा टैग्स: charset और मोबाइल के लिए viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday! 🎉 Special Surprise</title>
+  <title>Happy Birthday Anita! 🎉 Special Surprise</title>
+
   <style>
-    /* तेरा पुराना style ही रखा है, कोई change नहीं */
-    body { margin:0; padding:0; font-family:'Arial',sans-serif; background:#000; color:#fff; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center; text-align:center; }
-    #wishesScreen { position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(135deg,#ff6b6b,#4ecdc4,#45b7d1,#96c93d); background-size:400% 400%; animation:gradientBG 15s ease infinite; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:10; }
-    @keyframes gradientBG { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
-    .wish-text { font-size:4rem; font-weight:bold; text-shadow:0 0 20px #fff, 0 0 40px #ff00ff; animation:pulse 2s infinite; margin:20px; }
-    @keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
-    #countdown { font-size:3rem; margin-top:30px; color:#ffff00; text-shadow:0 0 15px #ffff00; }
-    #imageScreen { display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:#111; flex-direction:column; align-items:center; justify-content:center; }
-    #myImage { max-width:90%; max-height:80vh; border-radius:20px; box-shadow:0 0 50px rgba(255,255,0,0.7); display:none; opacity:0; transition:opacity 2s; }
-    #confetti { position:absolute; top:0; left:0; right:0; bottom:0; pointer-events:none; z-index:5; }
-    #soundHint { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.6); padding:10px 20px; border-radius:10px; font-size:1.2rem; display:none; z-index:20; }
+    /* पूरा पेज ब्लैक बैकग्राउंड से शुरू, सेंटर में कंटेंट */
+    body { 
+      margin:0; padding:0; 
+      font-family:'Arial', sans-serif; 
+      background:#000; color:#fff; 
+      height:100vh; overflow:hidden; 
+      display:flex; align-items:center; justify-content:center; 
+      text-align:center; 
+    }
+
+    /* पहले स्क्रीन: ग्रेडिएंट बैकग्राउंड + एनिमेशन */
+    #wishesScreen { 
+      position:absolute; top:0; left:0; right:0; bottom:0; 
+      background:linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d); 
+      background-size:400% 400%; 
+      animation:gradientBG 15s ease infinite; 
+      display:flex; flex-direction:column; align-items:center; justify-content:center; 
+      z-index:10; 
+    }
+
+    /* ग्रेडिएंट मूवमेंट का एनिमेशन */
+    @keyframes gradientBG { 
+      0%   { background-position: 0% 50%;   }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%;   }
+    }
+
+    /* टेक्स्ट का स्टाइल: बड़ा, ग्लो, पल्स एनिमेशन */
+    .wish-text { 
+      font-size:3.8rem; 
+      font-weight:bold; 
+      text-shadow:0 0 20px #fff, 0 0 40px #ff00ff; 
+      animation:pulse 2s infinite; 
+      margin:18px; 
+      line-height:1.1;
+    }
+
+    /* पल्स एनिमेशन: थोड़ा बड़ा-छोटा होता रहे */
+    @keyframes pulse { 
+      0%   { transform: scale(1);   }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1);   }
+    }
+
+    /* काउंटडाउन बड़ा और चमकदार */
+    #countdown { 
+      font-size:5rem; 
+      margin-top:25px; 
+      color:#ffff00; 
+      text-shadow:0 0 25px #ffff00; 
+    }
+
+    /* दूसरी स्क्रीन: इमेज दिखाने वाली */
+    #imageScreen { 
+      display:none; 
+      position:absolute; top:0; left:0; right:0; bottom:0; 
+      background:#111; 
+      flex-direction:column; align-items:center; justify-content:center; 
+    }
+
+    /* सरप्राइज इमेज: मैक्स साइज, राउंड कॉर्नर, गोल्डन ग्लो */
+    #myImage { 
+      max-width:92%; 
+      max-height:78vh; 
+      border-radius:24px; 
+      box-shadow:0 0 70px rgba(255, 215, 0, 0.9); 
+      opacity:0; 
+      transition:opacity 3s ease; 
+    }
+
+    /* कन्फेटी के लिए कैनवास (पारदर्शी) */
+    #confetti { 
+      position:absolute; top:0; left:0; right:0; bottom:0; 
+      pointer-events:none; 
+      z-index:5; 
+    }
+
+    /* साउंड ऑन करने का हिंट (नीचे फिक्स्ड) */
+    #soundHint { 
+      position:fixed; bottom:30px; left:50%; transform:translateX(-50%); 
+      background:rgba(0,0,0,0.75); 
+      padding:14px 30px; 
+      border-radius:15px; 
+      font-size:1.4rem; 
+      display:none; 
+      z-index:20; 
+      cursor:pointer; 
+      border:1px solid #ffff00; 
+    }
   </style>
 </head>
+
 <body>
 
+  <!-- पहली स्क्रीन: विशेज + काउंटडाउन -->
   <div id="wishesScreen">
     <div class="wish-text">Happy Birthday Anita 🎂🔥</div>
-    <div class="wish-text">तू कुछ तो कर</div>
-      <div class="wish-text">थोड़ा इंतजार करो </div>
-    <div class="wish-text">कुछ बड़ा होने वाला है... 🎉</div>
+    <div class="wish-text">तू कुछ तो कर...</div>
+    <div class="wish-text">थोड़ा इंतज़ार कर...</div>
+    <div class="wish-text">कुछ जबरदस्त आने वाला है! 🎉✨</div>
     <div id="countdown">15</div>
   </div>
 
+  <!-- दूसरी स्क्रीन: इमेज + बैकग्राउंड म्यूजिक -->
   <div id="imageScreen">
-    <img id="myImage" src="https://i.imgur.com/YOUR_IMAGE_HERE.jpg" alt="Surprise Image">
-    <audio id="bgMusic" loop muted autoplay>  <!-- muted + autoplay यहां महत्वपूर्ण -->
-      <source src="https://media.vole.wtf/happy-birthday/jazz-trio.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
+    <!-- यहाँ अपनी इमेज का path या URL डालो -->
+    <!-- तरीका 1: repo में assets फोल्डर में डाली हो तो -->
+    <img id="myImage" src="assets/surprise.jpg" alt="Surprise for Anita">
+
+    <!-- तरीका 2: अगर इंटरनेट पर हो तो पूरा https लिंक डाल सकते हो -->
+    <!-- <img id="myImage" src="https://i.imgur.com/XXXXXXXXXXXXXXXX.jpg" alt="Surprise for Anita"> -->
+
+    <!-- ऑडियो: repo में assets फोल्डर में happy-birthday-jazz.mp3 डालो -->
+    <audio id="bgMusic" loop muted>
+      <source src="assets/happy-birthday-jazz.mp3" type="audio/mpeg">
+      ब्राउज़र ऑडियो सपोर्ट नहीं करता।
     </audio>
   </div>
 
+  <!-- कन्फेटी बनाने के लिए कैनवास -->
   <canvas id="confetti"></canvas>
 
-  <!-- Sound hint अगर unmute fail हो -->
-  <div id="soundHint">Sound सुनाई नहीं दे रहा? यहां टैप करके Sound On करो 🎵</div>
+  <!-- अगर साउंड नहीं चले तो ये मैसेज दिखेगा -->
+  <div id="soundHint">🎵 साउंड नहीं आ रहा? → कहीं भी टैप / क्लिक करके साउंड ऑन करो</div>
 
   <script>
+    // काउंटडाउन की शुरुआत: 15 से 0 तक
     let timeLeft = 15;
-    const countdownEl = document.getElementById('countdown');
-    const wishesScreen = document.getElementById('wishesScreen');
-    const imageScreen = document.getElementById('imageScreen');
-    const myImage = document.getElementById('myImage');
-    const bgMusic = document.getElementById('bgMusic');
-    const soundHint = document.getElementById('soundHint');
+    const countdownEl   = document.getElementById('countdown');
+    const wishesScreen  = document.getElementById('wishesScreen');
+    const imageScreen   = document.getElementById('imageScreen');
+    const myImage       = document.getElementById('myImage');
+    const bgMusic       = document.getElementById('bgMusic');
+    const soundHint     = document.getElementById('soundHint');
 
-    // Muted autoplay शुरू करने की कोशिश (काम करना चाहिए)
-    bgMusic.play().catch(() => { console.log("Muted autoplay ok"); });
-
+    // हर सेकंड काउंटडाउन घटाओ
     const timer = setInterval(() => {
       timeLeft--;
       countdownEl.textContent = timeLeft;
+
       if (timeLeft <= 0) {
-        clearInterval(timer);
-        wishesScreen.style.display = 'none';
-        imageScreen.style.display = 'flex';
+        clearInterval(timer);               // टाइमर रोक दो
+        wishesScreen.style.display = 'none'; // पहली स्क्रीन छुपाओ
+        imageScreen.style.display = 'flex';  // दूसरी स्क्रीन दिखाओ
 
-        // Image fade-in
-        myImage.style.display = 'block';
-        setTimeout(() => { myImage.style.opacity = '1'; }, 100);
+        // इमेज को फेड-इन करो (धीरे-धीरे दिखे)
+        setTimeout(() => { myImage.style.opacity = '1'; }, 300);
 
-        // अब sound unmute करने की कोशिश (image load होने पर)
-        bgMusic.muted = false;
-        bgMusic.play().then(() => {
-          console.log("Sound unmute successful!");
-          soundHint.style.display = 'none';
-        }).catch(err => {
-          console.log("Unmute blocked:", err);
-          // अगर block हुआ तो hint दिखाओ
-          soundHint.style.display = 'block';
-          // User कहीं भी tap/click करे तो unmute
-          document.body.addEventListener('click', () => {
-            bgMusic.muted = false;
-            bgMusic.play();
-            soundHint.style.display = 'none';
-          }, {once: true});
-        });
-
+        // कन्फेटी शुरू करो
         startConfetti();
+
+        // म्यूटेड ऑटोप्ले शुरू करने की कोशिश (कई ब्राउज़र में काम करता है)
+        bgMusic.play().catch(() => { console.log("Muted autoplay started"); });
+
+        // यूजर को बताओ कि क्लिक करके साउंड ऑन करे
+        soundHint.style.display = 'block';
       }
     }, 1000);
 
-    // Confetti function (तेरा पुराना ही)
+    // कहीं भी क्लिक/टैप करने पर साउंड अनम्यूट + प्ले
+    document.body.addEventListener('click', function turnOnSound() {
+      bgMusic.muted = false;
+      bgMusic.play().catch(e => console.log("Play failed:", e));
+      soundHint.style.display = 'none';
+      // दोबारा listener हटाओ (एक बार काफी है)
+      document.body.removeEventListener('click', turnOnSound);
+    });
+
+    // कन्फेटी बनाने का फंक्शन
     function startConfetti() {
       const canvas = document.getElementById('confetti');
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      const confetti = [];
-      for (let i = 0; i < 150; i++) {
+
+      let confetti = [];
+      for (let i = 0; i < 200; i++) {
         confetti.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height - canvas.height,
-          r: Math.random() * 6 + 2,
-          d: Math.random() * 150 + 50,
-          color: `hsl(${Math.random()*360}, 100%, 50%)`,
-          tilt: Math.random() * 10 - 5,
+          r: Math.random() * 8 + 3,
+          d: Math.random() * 200 + 70,
+          color: `hsl(${Math.random()*360}, 100%, 65%)`,
+          tilt: Math.random() * 12 - 6,
           tiltAngle: 0
         });
       }
-      function draw() {
+
+      function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         confetti.forEach((c, i) => {
-          c.tiltAngle += 0.1;
-          c.y += (Math.cos(c.d) + 3 + c.r/2) / 2;
-          c.tilt = Math.sin(c.tiltAngle) * 12;
+          c.tiltAngle += 0.12;
+          c.y += (Math.cos(c.d) * 4 + c.r/2 + 2.5);
+          c.tilt = Math.sin(c.tiltAngle) * 18;
+
           if (c.y > canvas.height) confetti.splice(i, 1);
+
           ctx.beginPath();
           ctx.lineWidth = c.r;
           ctx.strokeStyle = c.color;
-          ctx.moveTo(c.x + c.tilt + c.r/4, c.y);
-          ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/4);
+          ctx.moveTo(c.x + c.tilt + c.r/3, c.y);
+          ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/2);
           ctx.stroke();
         });
-        if (confetti.length) requestAnimationFrame(draw);
+
+        if (confetti.length > 0) requestAnimationFrame(animate);
       }
-      draw();
+      animate();
     }
 
+    // विंडो रिसाइज़ होने पर कैनवास साइज़ अपडेट
     window.addEventListener('resize', () => {
       const canvas = document.getElementById('confetti');
       canvas.width = window.innerWidth;
